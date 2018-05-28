@@ -7,13 +7,15 @@ namespace Lang.Models
 {
     public class ChatSession
     {
+        public ChatSession()
+        {
+            Participants = new List<ChatParticipant>();
+        }
+
         public virtual int Id { get; set; }
-        public virtual string User1Id { get; set; }
-        public virtual string User2Id { get; set; }
         public virtual ChatSessionStatus Status { get; set; }
         public virtual DateTime DateCreated { get; set; }
 
-        public virtual ApplicationUser User1 { get; set; }
-        public virtual ApplicationUser User2 { get; set; }
+        public virtual List<ChatParticipant> Participants { get; set; }
     }
 }
