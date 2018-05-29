@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Lang.Data;
 using Lang.Models;
 using Lang.Services;
+using FluentValidation.AspNetCore;
 
 namespace Lang
 {
@@ -33,10 +34,32 @@ namespace Lang
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthentication().AddGoogle(x =>
+            {
+                x.ClientId = Configuration["oauth:google:clientId"];
+                x.ClientSecret = Configuration["oauth:google:clientSecret"];
+            });
+            services.AddAuthentication().AddFacebook(x =>
+            {
+                x.AppId = Configuration["oauth:facebook:appId"];
+                x.AppSecret = Configuration["oauth:facebook:appSecret"];
+            });
+            services.AddAuthentication().AddTwitter(x =>
+            {
+                x.ConsumerKey = Configuration["oauth:twitter:consumerKey"];
+                x.ConsumerSecret = Configuration["oauth:twitter:consumerSecret"];
+            });
+            services.AddAuthentication().AddMicrosoftAccount(x =>
+            {
+                x.ClientId = Configuration["oauth:microsoft:applicationId"];
+                x.ClientSecret = Configuration["oauth:microsoft:password"];
+            });
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +77,6 @@ namespace Lang
             }
 
             app.UseStaticFiles();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -63,6 +85,8 @@ namespace Lang
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(env.ContentRootPath, "App_Data"));
         }
     }
 }

@@ -7,8 +7,9 @@ namespace Lang.Models
 {
     public class Language
     {
-        public virtual int Id { get; set; }
+        public virtual string Id { get; set; }
         public virtual string Name { get; set; }
+        public virtual string Flag { get; set; }
 
         public virtual List<UserLanguage> UserLanguages { get; set; }
     }

@@ -113,7 +113,7 @@ namespace Lang.Migrations
 
             modelBuilder.Entity("Lang.Models.Language", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
@@ -128,7 +128,7 @@ namespace Lang.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("LanguageId");
+                    b.Property<string>("LanguageId");
 
                     b.Property<int>("Level");
 
@@ -265,8 +265,7 @@ namespace Lang.Migrations
                 {
                     b.HasOne("Lang.Models.Language", "Language")
                         .WithMany("UserLanguages")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LanguageId");
 
                     b.HasOne("Lang.Models.ApplicationUser", "User")
                         .WithMany("Languages")

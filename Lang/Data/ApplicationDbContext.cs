@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Lang.Models;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Lang.Data
 {
@@ -49,6 +51,16 @@ namespace Lang.Data
                 .HasOne(x => x.Language)
                 .WithMany(x => x.UserLanguages)
                 .HasForeignKey(x => x.LanguageId);
+
+            Seed(builder);
+        }
+
+        private void Seed(ModelBuilder builder)
+        {
+            string languagesData = Path.Combine((string)AppDomain.CurrentDomain.GetData("DataDirectory"), "languages.json");
+            var languages = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(languagesData));
+            builder.Entity<Language>()
+                .HasData(languages.Select(x => new Language { Id = x.Key, Name = x.Value }).ToArray());
         }
 
         public virtual DbSet<ChatParticipant> ChatParticipants { get; set; }

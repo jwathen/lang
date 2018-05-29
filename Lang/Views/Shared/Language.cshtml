@@ -1,0 +1,20 @@
+﻿<label class="label">
+    <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/@(ViewBag.Flag).svg" />
+    <span style="padding-top: 0.5em;">
+        @ViewBag.Name
+        @if (ViewBag.Level != null)
+        {
+            <text> - @ViewBag.Level</text>
+        }
+    </span>
+    <a href="#">
+        @if (ViewBag.Level != null)
+        {
+            <text>edit</text>
+        }
+        else
+        {
+            <text>add</text>
+        }
+    </a>
+</label>

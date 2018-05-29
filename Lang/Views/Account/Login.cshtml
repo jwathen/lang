@@ -9,75 +9,166 @@
     ViewData["Title"] = "Log in";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-4">
         <section>
-            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="RememberMe">
-                            <input asp-for="RememberMe" />
-                            @Html.DisplayNameFor(m => m.RememberMe)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a asp-action="ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
+            <h2>Select a Sign In Provider</h2>
             <hr />
             @{
                 var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                if (loginProviders.Count == 0)
-                {
+                <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                     <div>
                         <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
+                            @foreach (var provider in loginProviders)
+                            {
+                                var providerClass = provider.Name.ToLower();
+                                providerClass = providerClass == "microsoft" ? "windows" : providerClass;
+                                <button type="submit" class="btn btn-block btn-social btn-lg btn-@provider.Name.ToLower()" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                    <i class="fa fa-@providerClass"></i> Sign in with @provider.DisplayName
+                                </button>
+                            }
                         </p>
                     </div>
-                }
-                else
-                {
-                    <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in loginProviders)
-                                {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
+                </form>
             }
+        </section>
+        <section>
+            <h2>Profile</h2>
+            <hr />
+            <form>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Birth Year</label>
+                    <select class="custom-select">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <small class="form-text text-muted">Users can set a preferred age range for their language partners.</small>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <br />
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" type="radio" name="gender" id="gender-male" value="Male">
+                        <label class="custom-control-label" for="gender-male">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" type="radio" name="gender" id="gender-female" value="Female">
+                        <label class="custom-control-label" for="gender-female">Female</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" type="radio" name="gender" id="gender-other" value="Other">
+                        <label class="custom-control-label" for="gender-other">Other</label>
+                    </div>
+                    <small class="form-text text-muted">Users can set a preferred gender for their language partners.</small>
+                </div>
+                <input class="btn btn-block" type="submit" value="Next" />
+            </form>
+        </section>
+        <section class="langs" style="margin-bottom: 10em;">
+            <h2>My Languages</h2>
+            <hr />
+            <div class="form-group">
+                <input type="search" class="form-control" placeholder="Type to search for languages." />
+            </div>
+            <label class="label">
+                <img style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/united-states-of-america.svg" />
+                <span style="padding-top: 0.5em;">English (Fluent) - </span>
+                <a href="#">Change  </a>
+            </label>
+            <label class="label">
+                <img style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/mexico.svg" />
+                <span style="padding-top: 0.5em;">Spanish (Intermediate) - </span>
+                <a href="#">Change</a>
+            </label>
+            <label class="label">
+                <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/esperanto.svg" />
+                <span style="padding-top: 0.5em;">Esperanto (Intermediate) - </span>
+                <a href="#">Change</a>
+            </label>
+            <hr />
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="label" style="padding-right: 2em;">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/china.svg" />
+                        <span style="padding-top: 0.5em;">Chinese - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/france.svg" />
+                        <span style="padding-top: 0.5em;">French - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/germany.svg" />
+                        <span style="padding-top: 0.5em;">German - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/italy.svg" />
+                        <span style="padding-top: 0.5em;">Italian - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/japan.svg" />
+                        <span style="padding-top: 0.5em;">Japanese - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/netherlands.svg" />
+                        <span style="padding-top: 0.5em;">Dutch - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/republic-of-poland.svg" />
+                        <span style="padding-top: 0.5em;">Polish - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/brazil.svg" />
+                        <span style="padding-top: 0.5em;">Portugese - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/russia.svg" />
+                        <span style="padding-top: 0.5em;">Russian - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label class="label">
+                        <img class="img-circle" style="width: 1.3em; height: 1.3em; position: relative; margin-right: 0.5em;" src="~/images/flags/egypt.svg" />
+                        <span style="padding-top: 0.5em;">Arabic - </span>
+                        <a href="#">Add</a>
+                    </label>
+                </div>
+            </div>
+            <input class="btn btn-block" type="submit" value="Finish" />
         </section>
     </div>
 </div>
