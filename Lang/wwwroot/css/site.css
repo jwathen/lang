@@ -1,5 +1,9 @@
 ﻿.btn-social {
-    text-transform: none;
+    text-transform: none !important;
+}
+
+.standout {
+    padding: 3em;
 }
 
 /* Sticky footer styles
@@ -40,4 +44,16 @@ body > .container {
 
 code {
     font-size: 80%;
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;    
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    border-color: #ddd;
+}
+.panel-body {
+    padding: 15px;
 }

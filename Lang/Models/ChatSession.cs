@@ -15,6 +15,7 @@ namespace Lang.Models
         public virtual int Id { get; set; }
         public virtual ChatSessionStatus Status { get; set; }
         public virtual DateTime DateCreated { get; set; }
+        public virtual Guid Guid { get; set; }
 
         public virtual List<ChatParticipant> Participants { get; set; }
     }

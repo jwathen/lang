@@ -1,0 +1,28 @@
+﻿@inject SignInManager<User> SignInManager
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <section>
+            <h2 class="text-center">Sign Up</h2>
+            <hr />
+            <p>Select a login provider.</p>
+            @{
+                var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                    <div>
+                        <p>
+                            @foreach (var provider in loginProviders)
+                            {
+                                var providerClass = provider.Name.ToLower();
+                                providerClass = providerClass == "microsoft" ? "windows" : providerClass;
+                                <button type="submit" class="btn btn-block btn-social btn-lg btn-@provider.Name.ToLower()" name="provider" value="@provider.Name" title="Sign up in using your @provider.DisplayName account">
+                                    <i class="fa fa-@providerClass"></i> Sign up with @provider.DisplayName
+                                </button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+        </section>
+    </div>
+</div>

@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Lang.Migrations
 {
@@ -15,9 +14,9 @@ namespace Lang.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,27 +27,27 @@ namespace Lang.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    Gender = table.Column<int>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    Profile = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    Gender = table.Column<int>(nullable: true),
+                    BirthYear = table.Column<int>(nullable: true),
+                    Bio = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,8 +60,9 @@ namespace Lang.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Status = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Guid = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,7 +74,9 @@ namespace Lang.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Icon = table.Column<string>(nullable: true),
+                    IsCommon = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,9 +89,9 @@ namespace Lang.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    RoleId = table.Column<int>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,9 +110,9 @@ namespace Lang.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -218,9 +220,9 @@ namespace Lang.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
                     LanguageId = table.Column<string>(nullable: true),
-                    Level = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    Level = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-Lang-80992A44-E0E8-4756-8DB1-6E429964140A</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Data\Migrations\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.5.2" />
@@ -21,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
     <Folder Include="wwwroot\images\flags\" />
   </ItemGroup>
 

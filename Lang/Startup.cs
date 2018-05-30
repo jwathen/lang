@@ -30,7 +30,7 @@ namespace Lang
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole<int>>()
+            services.AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -58,6 +58,12 @@ namespace Lang
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddMemoryCache();
+            services.AddSession(x =>
+            {
+                x.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+
             services.AddMvc()
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
@@ -78,6 +84,7 @@ namespace Lang
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

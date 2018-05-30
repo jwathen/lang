@@ -12,7 +12,7 @@ namespace Lang.Models
         public virtual string LanguageId { get; set; }
         public virtual LanguageLevel? Level { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        public virtual User User { get; set; }
         public virtual Language Language { get; set; }
     }
 }

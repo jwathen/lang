@@ -1,0 +1,65 @@
+﻿@model ProfileViewModel
+@inject SignInManager<User> SignInManager
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <section>
+            <h2 class="text-center">Sign Up</h2>
+            <hr />
+            <p>Please enter your profile information. Other learners will see this.</p>
+            <form asp-action="SignUpProfile" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email">Email Address</label>
+                    <input asp-for="Email" type="email" class="form-control" />
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Name">Name</label>
+                            <input asp-for="Name" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Country">Country</label>
+                            <input asp-for="Country" type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="BirthYear">Birth Year</label>
+                            <input asp-for="BirthYear" type="number" class="form-control" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <br />
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input asp-for="Gender" class="custom-control-input" type="radio" id="gender-male" value="@Gender.Male">
+                                <label class="custom-control-label" for="gender-male">M</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input asp-for="Gender" class="custom-control-input" type="radio" id="gender-female" value="@Gender.Female">
+                                <label class="custom-control-label" for="gender-female">F</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input asp-for="Gender" class="custom-control-input" type="radio" id="gender-other" value="@Gender.Other">
+                                <label class="custom-control-label" for="gender-other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="form-text text-muted">Other learners can set a preferred age range and gender for their language partners.</p>
+                <input typeof="submit" class="btn btn-block btn-primary" type="submit" value="Next" />
+            </form>
+        </section>
+    </div>
+</div>

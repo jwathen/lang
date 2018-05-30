@@ -1,14 +1,46 @@
 ﻿{
-  "en": "English",
-  "eo": "Esperanto",
-  "es": "Spanish",
-  "zh": "Chinese",
-  "ar": "Arabic",
-  "fr": "French",
-  "de": "German",
-  "it": "Italian",
-  "ja": "Japanese",
-  "pl": "Polish",
-  "pt": "Portuguese",
-  "ru": "Russian"
+  "en": {
+    "Name": "English",
+    "Icon": "united-states-of-america.svg"
+  },
+  "eo": {
+    "Name": "Experanto",
+    "Icon": "esperanto.svg"
+  },
+  "es": {
+    "Name": "Spanish",
+    "Icon": "mexico.svg"
+  },
+  "zh": {
+    "Name": "Chinese",
+    "Icon": "china.svg"
+  },
+  "ar": {
+    "Name": "Arabic",
+    "Icon": "egypt.svg"
+  },
+  "fr": {
+    "Name": "French",
+    "Icon": "france.svg"
+  },
+  "de": {
+    "Name": "German",
+    "Icon": "germany.svg"
+  },
+  "it": {
+    "Name": "Italian",
+    "Icon": "italy.svg"
+  },
+  "ja": {
+    "Name": "Japanese",
+    "Icon": "japan.svg"
+  },
+  "pt": {
+    "Name": "Portuguese",
+    "Icon": "brazil.svg"
+  },
+  "ru": {
+    "Name": "Russian",
+    "Icon": "russia.svg"
+  }  
 }

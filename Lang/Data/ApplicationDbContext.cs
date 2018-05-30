@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Lang.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -23,11 +23,11 @@ namespace Lang.Data
             base.OnModelCreating(builder);
 
             // ApplicationUser
-            builder.Entity<ApplicationUser>()
+            builder.Entity<User>()
                 .HasMany(x => x.Languages)
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
-            builder.Entity<ApplicationUser>()
+            builder.Entity<User>()
                 .HasMany(x => x.ChatParticipation)
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
@@ -57,6 +57,7 @@ namespace Lang.Data
 
         private void Seed(ModelBuilder builder)
         {
+            return;
             string languagesData = Path.Combine((string)AppDomain.CurrentDomain.GetData("DataDirectory"), "languages.json");
             var languages = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(languagesData));
             builder.Entity<Language>()

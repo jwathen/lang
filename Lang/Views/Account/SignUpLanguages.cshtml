@@ -1,0 +1,203 @@
+﻿@model LanguagesViewModel
+@inject SignInManager<User> SignInManager
+@{
+    ViewData["Title"] = "Register";
+    var userLanguages = Model.GetUserLanguages();
+}
+
+<style>
+    .language-label {
+        display: block;
+    }
+
+        .language-label img {
+            width: 1.3em;
+            height: 1.3em;
+            position: relative;
+            margin-right: 0.5em;
+        }
+
+        .language-label span {
+            padding-top: 0.5em;
+        }
+
+    #allLanguagesContainer {
+        margin-bottom: 1em;
+    }
+</style>
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <section>
+            <h2 class="text-center">Sign Up</h2>
+            <hr />
+            <p>Please indicate the languages you are learning or are willing to help others learn.</p>
+            <div class="form-group">
+                <input id="languageSearchText" type="search" class="form-control" placeholder="Type to search for languages." />
+            </div>
+            <div id="userLanguagesContainer">
+                @if (userLanguages.Any())
+                {
+                    foreach (var userLanguage in userLanguages)
+                    {
+                        var language = Model.AllLanguages[userLanguage.Key];
+                        <label class="label language-label" data-language-id="@userLanguage.Key" data-language-level="@userLanguage.Value">
+                            <img src="~/images/flags/@language.Icon" />
+                            <span>@language.Name (@userLanguage.Value) - </span>
+                            <a data-remove-user-language="@userLanguage.Key" href="#">Remove</a>
+                        </label>
+                    }
+                }
+            </div>
+            <hr id="userLanguagesSeparator" style="@(userLanguages.Any() ? "" : "display:none;")" />
+            <div id="allLanguagesContainer" class="row">
+                @foreach (var language in Model.AllLanguages.OrderBy(x => x.Value.Name))
+                {
+                    <div class="col-sm-6" data-language-id="@language.Key" style="@(language.Value.IsCommon && !userLanguages.ContainsKey(language.Key) ? "" : "display:none;")">
+                        <label class="label language-label">
+                            <img class="img-circle" src="~/images/flags/@language.Value.Icon" />
+                            <span>@language.Value.Name - </span>
+                            <a data-show-language-modal="@language.Key" href="#">Add</a>
+                        </label>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form asp-action="SignUpLanguages" method="post">
+                        <input id="saveLanguagesButton" typeof="submit" class="btn btn-block btn-primary" type="submit" value="Finish" />
+                        <input asp-for="UserLanguagesJson" type="hidden" />
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="modal fade" id="setFluencyModal" tabindex="-1" role="dialog" aria-labelledby="setFluencyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setFluencyModalLabel">How well do you speak <span id="fluencyModalLanguageName"></span>?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <button data-set-fluency="Beginner" class="btn btn-link btn-block">Beginner</button>
+                    <button data-set-fluency="Intermediate" class="btn btn-link btn-block">Intermediate</button>
+                    <button data-set-fluency="Advanced" class="btn btn-link btn-block">Advanced</button>
+                    <button data-set-fluency="Fluent" class="btn btn-link btn-block">Fluent</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        var allLanguages = @Html.Raw(Model.AllLanguagesJson);
+        var userLanguages = @Html.Raw(Model.UserLanguagesJson ?? "{}");
+        var languageLevels = {
+            'Beginner': 1,
+            'Intermediate': 2,
+            'Advanced': 3,
+            'Fluent': 4
+        };
+        var languageLevelNames = {
+            1: 'Beginner',
+            2: 'Intermediate',
+            3: 'Advanced',
+            4: 'Fluent'
+        };
+
+        $(function () {
+            function renderLanguages() {
+                for (var languageId in userLanguages) {
+                    if (!$('#userLanguagesContainer [data-language-id=' + languageId + ']').length) {
+                        var fluency = languageLevelNames[userLanguages[languageId]];
+                        var language = allLanguages[languageId];
+                        var userLanguageLabel =
+                            '<label class="label language-label" data-language-id="' + languageId + '" data-language-level="' + fluency + '">' +
+                            '<img src ="/images/flags/' + language.Icon + '" />' +
+                            '<span> ' + language.Name + ' (' + fluency + ') - </span>' +
+                            '<a data-remove-user-language="' + languageId + '" href="#">Remove</a>' +
+                            '</label>';
+                        $('#userLanguagesContainer').append(userLanguageLabel);
+                    }
+                }
+                $('#userLanguagesContainer .language-label').each(function () {
+                    var languageId = $(this).attr('data-language-id');
+                    if (userLanguages[languageId] === undefined) {
+                        $(this).remove();
+                    }
+                });
+                if (Object.keys(userLanguages).length) {
+                    $('#userLanguagesSeparator').show();
+                    $('#saveLanguagesButton').removeAttr('disabled');
+                }
+                else {
+                    $('#userLanguagesSeparator').hide();
+                    $('#saveLanguagesButton').addAttr('disabled');
+                }
+
+                var searchTerm = $('#languageSearchText').val().toLowerCase();
+                var hasSearchTerm = searchTerm && searchTerm.length;
+                var anyLanguages = false;
+                for (var id in allLanguages) {
+                    var language = allLanguages[id];
+                    var languageDiv = $('#allLanguagesContainer div[data-language-id=' + id + ']');
+                    if (hasSearchTerm
+                        && userLanguages[id] === undefined
+                        && language.Name.toLowerCase().indexOf(searchTerm) > -1) {
+                        languageDiv.show();
+                        anyLanguages = true;
+                    }
+                    else if (!hasSearchTerm
+                        && language.IsCommon === true
+                        && userLanguages[id] === undefined) {
+                        languageDiv.show();
+                        anyLanguages = true;
+                    }
+                    else {
+                        languageDiv.hide();
+                    }
+                }
+            }
+
+            $('#languageSearchText').on('keyup', function () {
+                renderLanguages();
+            });
+
+            $('[data-show-language-modal]').on('click', function () {
+                var languageId = $(this).attr('data-show-language-modal');
+                var language = allLanguages[languageId];
+                var $modal = $('#setFluencyModal');
+                $modal.attr('data-language-id', languageId);
+                $modal.find('#fluencyModalLanguageName').text(language.Name);
+                $modal.modal('show');
+            });
+
+            $('[data-set-fluency]').on('click', function () {
+                var fluency = $(this).attr('data-set-fluency');
+                var $modal = $('#setFluencyModal');
+                var languageId = $modal.attr('data-language-id');
+                var language = allLanguages[languageId];
+                userLanguages[languageId] = languageLevels[fluency];
+                $('#languageSearchText').val('');
+                renderLanguages();
+                $modal.modal('hide');
+            });
+
+            $(document).on('click', '[data-remove-user-language]', function () {
+                var languageId = $(this).attr('data-remove-user-language');
+                delete userLanguages[languageId];
+                renderLanguages();
+            });
+
+            $('#saveLanguagesButton').click(function () {
+                $("#@Html.IdFor(x => x.UserLanguagesJson)").val(JSON.stringify(userLanguages));
+            });
+        });
+    </script>
+}

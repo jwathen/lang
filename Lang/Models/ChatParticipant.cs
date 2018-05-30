@@ -12,6 +12,6 @@ namespace Lang.Models
         public bool? HasAccepted { get; set; }
 
         public ChatSession ChatSession { get; set; }
-        public ApplicationUser User { get; set; }
+        public User User { get; set; }
     }
 }
