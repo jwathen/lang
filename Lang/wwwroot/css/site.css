@@ -2,9 +2,25 @@
     text-transform: none !important;
 }
 
-.standout {
-    padding: 3em;
+.language-label-block {
+    display: block;
 }
+
+.language-label-inline {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+    .language-label img {
+        width: 1.3em;
+        height: 1.3em;
+        position: relative;
+        margin-right: 0.5em;
+    }
+
+    .language-label span {
+        padding-top: 0.5em;
+    }
 
 /* Sticky footer styles
 -------------------------------------------------- */

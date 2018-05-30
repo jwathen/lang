@@ -181,9 +181,15 @@ namespace Lang.Controllers
         {
             var signUpProcess = HttpContext.Session.Get<SignUpProcess>("SignUpProcess");
             signUpProcess.UserLanguages = model.GetUserLanguages();
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
             var user = new User
             {
-                UserName = signUpProcess.Profile.Email,
+                UserName = $"{info.LoginProvider}-{info.ProviderKey}",
                 Email = signUpProcess.Profile.Email,
                 Name = signUpProcess.Profile.Name,
                 Country = signUpProcess.Profile.Country,
@@ -193,11 +199,6 @@ namespace Lang.Controllers
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
             {
-                var info = await _signInManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    return RedirectToAction(nameof(Login));
-                }
                 result = await _userManager.AddLoginAsync(user, info);
                 if (result.Succeeded)
                 {
