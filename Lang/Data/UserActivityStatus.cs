@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lang.Models
+namespace Lang.Data
 {
-    public enum Gender
+    public enum UserActivityStatus
     {
-        Male = 1,
-        Female = 2,
-        Other = 3
+        Offline = 1,
+        Busy = 2,
+        Available = 3
     }
 }

@@ -12,6 +12,7 @@ using Lang.Data;
 using Lang.Models;
 using Lang.Services;
 using FluentValidation.AspNetCore;
+using Lang.Hubs;
 
 namespace Lang
 {
@@ -66,6 +67,8 @@ namespace Lang
 
             services.AddMvc()
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +94,11 @@ namespace Lang
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<LangHub>("/LangHub");
             });
 
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(env.ContentRootPath, "App_Data"));

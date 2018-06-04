@@ -138,3 +138,14 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        $(function () {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/langHub")
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+            connection.start().catch(err => console.error(err.toString()));
+        });
+    </script>
+}

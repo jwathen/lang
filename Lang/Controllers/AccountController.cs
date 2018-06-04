@@ -17,6 +17,7 @@ using Lang.Services;
 using Lang.Helpers;
 using Lang.Data;
 using Newtonsoft.Json;
+using Lang.Hubs;
 
 namespace Lang.Controllers
 {
@@ -27,17 +28,20 @@ namespace Lang.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _db;
         private readonly ILogger _logger;
+        private readonly LangHub _langHub;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ApplicationDbContext db,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            LangHub langHub)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
             _logger = logger;
+            _langHub = langHub;
         }
 
         [TempData]
@@ -68,6 +72,10 @@ namespace Lang.Controllers
         [Route("account/logout")]
         public async Task<IActionResult> Logout()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                await _langHub.HeartBeat(int.Parse(User.Identity.Name), UserActivityStatus.Offline);
+            }
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
