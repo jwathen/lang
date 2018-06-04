@@ -1,46 +1,68 @@
-﻿{
-  "en": {
-    "Name": "English",
-    "Icon": "united-states-of-america.svg"
-  },
-  "eo": {
-    "Name": "Experanto",
-    "Icon": "esperanto.svg"
-  },
-  "es": {
-    "Name": "Spanish",
-    "Icon": "mexico.svg"
-  },
-  "zh": {
-    "Name": "Chinese",
-    "Icon": "china.svg"
-  },
-  "ar": {
-    "Name": "Arabic",
-    "Icon": "egypt.svg"
-  },
-  "fr": {
+﻿[  
+   {  
+      "Id":"en",
+      "Name":"English",
+      "Icon":"united-states-of-america.svg",
+      "IsCommon":true
+   },
+   {  
+      "Id":"eo",
+      "Name":"Experanto",
+      "Icon":"esperanto.svg",
+      "IsCommon":false
+   },
+   {  
+      "Id":"es",
+      "Name":"Spanish",
+      "Icon":"mexico.svg",
+      "IsCommon":true
+   },
+   {  
+      "Id":"zh",
+      "Name":"Chinese",
+      "Icon":"china.svg",
+      "IsCommon":true
+   },
+   {  
+      "Id":"ar",
+      "Name":"Arabic",
+      "Icon":"egypt.svg",
+      "IsCommon":true
+   },
+  {
+    "Id": "fr",
     "Name": "French",
-    "Icon": "france.svg"
+    "Icon": "france.svg",
+    "IsCommon": true
   },
-  "de": {
-    "Name": "German",
-    "Icon": "germany.svg"
-  },
-  "it": {
-    "Name": "Italian",
-    "Icon": "italy.svg"
-  },
-  "ja": {
-    "Name": "Japanese",
-    "Icon": "japan.svg"
-  },
-  "pt": {
-    "Name": "Portuguese",
-    "Icon": "brazil.svg"
-  },
-  "ru": {
-    "Name": "Russian",
-    "Icon": "russia.svg"
-  }  
-}
+   {  
+      "Id":"de",
+      "Name":"German",
+      "Icon":"germany.svg",
+      "IsCommon":true
+   },
+   {  
+      "Id":"it",
+      "Name":"Italian",
+      "Icon":"italy.svg",
+      "IsCommon":true
+   },
+   {  
+      "Id":"ja",
+      "Name":"Japanese",
+      "Icon":"japan.svg",
+      "IsCommon":true
+   },
+   {  
+      "Id":"pt",
+      "Name":"Portuguese",
+      "Icon":"brazil.svg",
+      "IsCommon":true
+   },
+   {  
+      "Id":"ru",
+      "Name":"Russian",
+      "Icon":"russia.svg",
+      "IsCommon":true
+   }
+]

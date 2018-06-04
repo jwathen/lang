@@ -57,11 +57,9 @@ namespace Lang.Data
 
         private void Seed(ModelBuilder builder)
         {
-            return;
             string languagesData = Path.Combine((string)AppDomain.CurrentDomain.GetData("DataDirectory"), "languages.json");
-            var languages = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(languagesData));
-            builder.Entity<Language>()
-                .HasData(languages.Select(x => new Language { Id = x.Key, Name = x.Value }).ToArray());
+            var languages = JsonConvert.DeserializeObject<List<Language>>(File.ReadAllText(languagesData));
+            builder.Entity<Language>().HasData(languages.ToArray());
         }
 
         public virtual DbSet<ChatParticipant> ChatParticipants { get; set; }
