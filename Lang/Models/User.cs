@@ -19,6 +19,8 @@ namespace Lang.Models
         public virtual Gender? Gender { get; set; }
         public virtual int? BirthYear { get; set; }
         public virtual string Bio { get; set; }
+        public virtual DateTime? HeartBeat { get; set; }
+        public virtual UserActivityStatus? ActivityStatus { get; set; }
 
         public virtual List<UserLanguage> Languages { get; set; }
         public virtual List<ChatParticipant> ChatParticipation { get; set; }
