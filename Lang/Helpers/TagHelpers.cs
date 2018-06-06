@@ -1,4 +1,5 @@
-﻿using Lang.Models;
+﻿using Lang.Data;
+using Lang.Models;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 using System.Collections.Generic;

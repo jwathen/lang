@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Lang.Models;
 using Lang.Models.ManageViewModels;
 using Lang.Services;
+using Lang.Data;
 
 namespace Lang.Controllers
 {

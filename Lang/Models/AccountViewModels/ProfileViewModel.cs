@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Lang.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -41,11 +42,11 @@ namespace Lang.Models.AccountViewModels
                 var gender = info.Principal.FindFirstValue(ClaimTypes.Gender);
                 if (!string.IsNullOrWhiteSpace(gender) && gender.ToLower()[0] == 'm')
                 {
-                    this.Gender = Models.Gender.Male;
+                    this.Gender = Data.Gender.Male;
                 }
                 else if (!string.IsNullOrWhiteSpace(gender) && gender.ToLower()[0] == 'f')
                 {
-                    this.Gender = Models.Gender.Female;
+                    this.Gender = Data.Gender.Female;
                 }
             }
         }
