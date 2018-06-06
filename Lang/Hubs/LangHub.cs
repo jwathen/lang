@@ -21,7 +21,7 @@ namespace Lang.Hubs
             _cache = cache;
         }
 
-        public async Task HeartBeat(UserActivityStatus status)
+        public async Task ClientHeartBeat(UserActivityStatus status)
         {
             if (!Context.User.Identity.IsAuthenticated)
             {
@@ -44,11 +44,11 @@ namespace Lang.Hubs
             if (user.ActivityStatus != status)
             {
                 user.ActivityStatus = status;
-                await _db.SaveChangesAsync();
                 var allLanguages = await LanguageViewModel.All(_cache, _db);
                 var userViewModel = new UserViewModel(user, userLanguages, allLanguages);
                 await Clients.Others.SendAsync("userStatusChanged", userViewModel);
             }
+            await _db.SaveChangesAsync();
         }
     }
 }

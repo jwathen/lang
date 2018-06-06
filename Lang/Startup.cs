@@ -68,6 +68,7 @@ namespace Lang
             services.AddMvc()
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+            services.AddScoped<LangHub>();
             services.AddSignalR();
         }
 

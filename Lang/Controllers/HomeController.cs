@@ -6,13 +6,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Lang.Models;
 using Lang.Data;
+using Lang.Hubs;
 
 namespace Lang.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly LangHub _langHub;
+
+        public HomeController(LangHub langHub)
+        {
+            _langHub = langHub;
+        }
+
         public IActionResult Index()
         {
+            
             return View();
         }
 
